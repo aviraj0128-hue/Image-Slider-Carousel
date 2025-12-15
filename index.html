@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Image Slider / Carousel</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    padding: 40px;
+  }
+
+  .slider {
+    position: relative;
+    width: 500px;
+    height: 280px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #000;
+  }
+
+  .slides {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease-in-out;
+  }
+
+  .slides img {
+    width: 500px;
+    height: 280px;
+    object-fit: cover;
+  }
+
+  /* Buttons */
+  .btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .prev { left: 10px; }
+  .next { right: 10px; }
+
+  /* Dots */
+  .dots {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #bbb;
+    border-radius: 50%;
+    margin: 5px;
+    cursor: pointer;
+  }
+
+  .dot.active {
+    background: #333;
+  }
+</style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Image Slider / Carousel</h2>
+
+<div class="slider">
+  <div class="slides" id="slides">
+   <a href="https://ibb.co/gLd4w3Fh"><img src="https://i.ibb.co/bMFbLPRD/rohit-tandon-9wg5j-CEPBsw-unsplash.jpg" alt="rohit-tandon-9wg5j-CEPBsw-unsplash" ></a>
+   <a href="https://ibb.co/jkLWVMJ3"><img src="https://i.ibb.co/PG59ThD1/cristian-grecu-6y-BAQee-NROU-unsplash.jpg" alt="cristian-grecu-6y-BAQee-NROU-unsplash" ></a>
+   <a href="https://ibb.co/bGHPQM8"><img src="https://i.ibb.co/8Qz0NLS/sebastian-pena-lambarri-Wj9-ELw-GXa6c-unsplash.jpg" alt="sebastian-pena-lambarri-Wj9-ELw-GXa6c-unsplash" ></a>
+  </div>
+
+  <button class="btn prev" onclick="prevSlide()">❮</button>
+  <button class="btn next" onclick="nextSlide()">❯</button>
+</div>
+
+<div class="dots" id="dots"></div>
+
+<script>
+  let index = 0;
+  const slides = document.getElementById("slides");
+  const totalSlides = slides.children.length;
+  const dotsContainer = document.getElementById("dots");
+
+  // Create dots
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement("span");
+    dot.classList.add("dot");
+    dot.onclick = () => goToSlide(i);
+    dotsContainer.appendChild(dot);
+  }
+
+  function updateSlider() {
+    slides.style.transform = `translateX(${-index * 500}px)`;
+    document.querySelectorAll(".dot").forEach((dot, i) => {
+      dot.classList.toggle("active", i === index);
+    });
+  }
+
+  function nextSlide() {
+    index = (index + 1) % totalSlides;
+    updateSlider();
+  }
+
+  function prevSlide() {
+    index = (index - 1 + totalSlides) % totalSlides;
+    updateSlider();
+  }
+
+  function goToSlide(i) {
+    index = i;
+    updateSlider();
+  }
+
+  // Auto-slide every 3 seconds
+  setInterval(nextSlide, 3000);
+
+  updateSlider();
+</script>
+
+</body>
+</html>
